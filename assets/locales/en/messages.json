@@ -1,0 +1,11 @@
+{
+    "appName": {
+        "message": "ChromeGPT"
+    },
+    "appShortName": {
+        "message": "ChromeGPT"
+    },
+    "appDescription": {
+        "message": "Execute GPT within Chrome"
+    }
+}

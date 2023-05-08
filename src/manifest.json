@@ -1,0 +1,28 @@
+{
+    "name": "ChromeGPT",
+    "short_name": "ChromeGPT",
+    "description": "Replaces website text content with GPT",
+    "homepage_url": "https://github.com/joshgriffith/ChromeGPT",
+    "version": "0.1.0",
+    "version_name": "0.1.0",
+    "manifest_version": 3,
+    "default_locale": "en",
+    "minimum_chrome_version": "88",
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": false
+    },
+    "permissions": ["activeTab", "scripting", "storage"],
+    "icons": {
+        "48": "assets/img/48x48.png"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_icon": {
+            "48": "assets/img/48x48.png"
+        },
+        "default_title": "ChromeGPT"
+    }
+}

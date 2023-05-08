@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <style>
+      input::placeholder {
+        font-style: italic;
+        color: rgb(150, 150, 150);
+      }
+    </style>
+  </head>
+  <body>
+    <div>ChromeGPT Options</div>
+    
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+      <label style="display: inline-block; min-width: 80px;">GPT API Key</label>
+      <input id="apikey" type="text" style="width: 400px;" placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
+    </div>
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+      <label style="display: inline-block; min-width: 80px;">Prompt</label>
+      <input id="prompt" type="text" style="width: 400px;" placeholder="the Warhammer 40k universe" />
+    </div>
+
+    <div id="status"></div>
+    <button id="save">Save</button>
+
+    <script src="options.js"></script>
+  </body>
+</html>
