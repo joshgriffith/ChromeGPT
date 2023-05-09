@@ -67,7 +67,9 @@ function textNodesUnder(el){
 let nodes = [];
 let selection = window.getSelection();
 
-if(selection && selection.type !== 'None') {
+console.log(selection)
+
+if(selection && selection.type !== 'None' && selection.type !== 'Caret') {
 
     var range = selection.getRangeAt(0);
     var allWithinRangeParent = textNodesUnder(range.commonAncestorContainer);
@@ -84,9 +86,20 @@ if(selection && selection.type !== 'None') {
             }
         }
     }
+
+    if(!allWithinRangeParent.length) {
+        let node = selection.baseNode;
+        let content = node.textContent.trim();
+
+        if(shouldInclude(node, content)) {
+            nodes.push({ node: node, text: content });
+        }
+    }
 }
 else {
     nodes = textNodesUnder(document);
+
+    console.log('nodes', nodes);
 }
 
 chrome.storage.sync.get({ apikey: '', prompt: '' }, async (options) => {
@@ -105,7 +118,7 @@ chrome.storage.sync.get({ apikey: '', prompt: '' }, async (options) => {
 
     nodes.forEach(each => {
         prompts.push({
-            prompt: "Rephrase the following statement as if it was " + options.prompt + " (the new text should be the same length as the original text):\n" + each.text + '\n',
+            prompt: "Rephrase the following as if it was " + options.prompt + " (the new text should be the same length as the original text):\n" + each.text + '\n',
             node: each.node
         });
     });
@@ -123,7 +136,7 @@ chrome.storage.sync.get({ apikey: '', prompt: '' }, async (options) => {
             },
             body: JSON.stringify({
                 prompt: chunk.map(x => x.prompt),
-                max_tokens: 300,
+                max_tokens: 600,
                 temperature: 0.5,
                 model: 'text-davinci-003'
             })
@@ -137,7 +150,7 @@ chrome.storage.sync.get({ apikey: '', prompt: '' }, async (options) => {
                 new: choice.text
             });
 
-            chunk[choice.index].node.textContent = choice.text;
+            chunk[choice.index].node.textContent = choice.text.replaceAll('\n', '');
         });
     }
 });
