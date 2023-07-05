@@ -4,3 +4,14 @@ chrome.action.onClicked.addListener(async (tab) => {
         files: ['content.js']
     });
 });
+
+chrome.commands.onCommand.addListener(function(command) {
+    if (command === "trigger-action") {
+      chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+        chrome.scripting.executeScript({
+            target: {tabId: tabs[0].id},
+            files: ['content.js']
+        });
+      });
+    }
+});

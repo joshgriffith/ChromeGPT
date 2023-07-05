@@ -12,7 +12,15 @@
         "page": "options.html",
         "open_in_tab": false
     },
-    "permissions": ["activeTab", "scripting", "storage"],
+    "commands": {
+        "trigger-action": {
+          "suggested_key": {
+            "default": "Ctrl+9"
+          },
+          "description": "Trigger action"
+        }
+      },
+    "permissions": ["activeTab", "scripting", "storage", "tabs"],
     "icons": {
         "48": "assets/img/48x48.png"
     },

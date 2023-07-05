@@ -1,4 +1,4 @@
-let minLength = 8;
+let minLength = 9;
 let maxBatchSize = 20;
 
 function isVisible(elem) {
@@ -54,7 +54,7 @@ function textNodesUnder(el){
     let node, results = [], walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
 
     while(node = walk.nextNode()) {
-        let content = node.textContent.trim();
+        let content = node.textContent.trim() + ' ';
 
         if(shouldInclude(node, content)) {
             results.push({ node: node, text: content });
@@ -79,7 +79,7 @@ if(selection && selection.type !== 'None' && selection.type !== 'Caret') {
 
         if (selection.containsNode(node, true)) {
 
-            let content = node.textContent.trim();
+            let content = node.textContent.trim() + ' ';
 
             if(shouldInclude(node, content)) {
                 nodes.push({ node: node, text: content });
@@ -89,7 +89,7 @@ if(selection && selection.type !== 'None' && selection.type !== 'Caret') {
 
     if(!allWithinRangeParent.length) {
         let node = selection.baseNode;
-        let content = node.textContent.trim();
+        let content = node.textContent.trim() + ' ';
 
         if(shouldInclude(node, content)) {
             nodes.push({ node: node, text: content });
@@ -118,16 +118,29 @@ chrome.storage.sync.get({ apikey: '', prompt: '' }, async (options) => {
 
     nodes.forEach(each => {
         prompts.push({
-            prompt: "Rephrase the following as if it was " + options.prompt + " (the new text should be the same length as the original text):\n" + each.text + '\n',
+            prompt: "Rephrase the following (using the same length of text) as if it was " + options.prompt + " (keep it short, do not exceed length):\n" + each.text + '\n',
             node: each.node
         });
     });
 
+    // Maximum of 100 results
     prompts = prompts.slice(0, 100);
 
     for (let i = 0; i < prompts.length; i += maxBatchSize) {
         const chunk = prompts.slice(i, i + maxBatchSize);
-        
+        let prompt = chunk.map(x => x.prompt);
+
+        chunk.forEach(c => {
+            if(c.node.parentElement && c.node.parentElement.style) {
+                if(!c.node.parentElement.style.cssText) {
+                    c.node.parentElement.style.cssText = '';
+                }
+
+                c.originalStyle = c.node.parentElement.style.cssText;
+                c.node.parentElement.style.cssText += '-webkit-filter: blur(3px);filter: blur(3px);';
+            }
+        });
+
         let response = await fetch('https://api.openai.com/v1/completions', {
             method: 'POST',
             headers: {
@@ -135,8 +148,8 @@ chrome.storage.sync.get({ apikey: '', prompt: '' }, async (options) => {
                 'Authorization': 'Bearer ' + options.apikey
             },
             body: JSON.stringify({
-                prompt: chunk.map(x => x.prompt),
-                max_tokens: 600,
+                prompt: prompt,
+                max_tokens: 200,
                 temperature: 0.5,
                 model: 'text-davinci-003'
             })
@@ -151,6 +164,7 @@ chrome.storage.sync.get({ apikey: '', prompt: '' }, async (options) => {
             });
 
             chunk[choice.index].node.textContent = choice.text.replaceAll('\n', '');
+            chunk[choice.index].node.parentElement.style.cssText = chunk[choice.index].originalStyle;
         });
     }
 });
