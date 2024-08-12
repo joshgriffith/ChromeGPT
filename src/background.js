@@ -15,3 +15,20 @@ chrome.commands.onCommand.addListener(function(command) {
       });
     }
 });
+
+chrome.runtime.onInstalled.addListener(function() {
+  chrome.contextMenus.create({
+    id: "chromeGptContextMenu",
+    title: "Chrome GPT",
+    contexts: ["selection", "page"]
+  });
+});
+
+chrome.contextMenus.onClicked.addListener(function(info, tab) {
+  if (info.menuItemId === "chromeGptContextMenu") {
+    chrome.scripting.executeScript({
+      target: {tabId: tab.id},
+      files: ['content.js']
+    });
+  }
+});

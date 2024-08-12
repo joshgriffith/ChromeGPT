@@ -13,12 +13,32 @@
     <div>ChromeGPT Options</div>
     
     <div style="margin-top: 10px; margin-bottom: 10px;">
+      <label style="display: inline-block; min-width: 80px;">Endpoint</label>
+      <input id="endpoint" type="text" style="width: 400px;" placeholder="https://api.openai.com/v1/chat/completions" />
+    </div>
+    <div style="margin-top: 10px; margin-bottom: 10px;">
       <label style="display: inline-block; min-width: 80px;">GPT API Key</label>
       <input id="apikey" type="text" style="width: 400px;" placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
     </div>
     <div style="margin-top: 10px; margin-bottom: 10px;">
       <label style="display: inline-block; min-width: 80px;">Prompt</label>
-      <input id="prompt" type="text" style="width: 400px;" placeholder="the Warhammer 40k universe" />
+      <input id="prompt" type="text" style="width: 400px;" placeholder="translate to English" />
+    </div>
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+      <label style="display: inline-block; min-width: 80px;">Model</label>
+      <input id="model" type="text" style="width: 400px;" placeholder="gpt-4-turbo" />
+    </div>
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+      <label style="display: inline-block; min-width: 80px;">Workers</label>
+      <input id="workers" type="text" style="width: 400px;" placeholder="3" />
+    </div>
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+      <label style="display: inline-block; min-width: 80px;">Chunk Length</label>
+      <input id="chunkLength" type="text" style="width: 400px;" placeholder="500" />
+    </div>
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+      <label style="display: inline-block; min-width: 80px;">Temperature</label>
+      <input id="temperature" type="text" style="width: 400px;" placeholder="0.2" />
     </div>
 
     <div id="status"></div>

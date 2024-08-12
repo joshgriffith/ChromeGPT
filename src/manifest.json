@@ -3,8 +3,8 @@
     "short_name": "ChromeGPT",
     "description": "Replaces website text content with GPT",
     "homepage_url": "https://github.com/joshgriffith/ChromeGPT",
-    "version": "0.1.0",
-    "version_name": "0.1.0",
+    "version": "0.2.0",
+    "version_name": "0.2.0",
     "manifest_version": 3,
     "default_locale": "en",
     "minimum_chrome_version": "88",
@@ -20,7 +20,7 @@
           "description": "Trigger action"
         }
       },
-    "permissions": ["activeTab", "scripting", "storage", "tabs"],
+    "permissions": ["activeTab", "scripting", "storage", "tabs", "contextMenus"],
     "icons": {
         "48": "assets/img/48x48.png"
     },
